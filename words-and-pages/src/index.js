@@ -4,15 +4,15 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { UserProvider } from "../context/user";
+import { DetailsProvider } from '../src/Context/Context';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-   <UserProvider>
+   <DetailsProvider>
     <App />
-   </UserProvider>
+   </DetailsProvider>
    
   </React.StrictMode>,
 );
