@@ -1,4 +1,4 @@
-import React,{ useState,useEffect } from "react";
+import React,{ useState,useEffect,useContext } from "react";
 
 const DetailsContext = React.createContext();
 function DetailsProvider({ children }) {
@@ -48,4 +48,8 @@ function DetailsProvider({ children }) {
   )
 }
 
-export { DetailsContext, DetailsProvider };
+export const useGlobalContext = () => {
+  return useContext(DetailsContext);
+}
+
+export {DetailsContext, DetailsProvider};
