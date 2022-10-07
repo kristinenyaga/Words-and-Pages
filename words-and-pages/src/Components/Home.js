@@ -7,14 +7,30 @@ import { NavLink } from "react-router-dom";
 function Home(){
   const [myBooks,setMyBooks]=useState([])
   const [readingList,setReadingList]=useState([])
+
   function addBookToList(bookadded){
-    setReadingList([...readingList,bookadded])
-    console.log(bookadded)
+    const updatedBook = readingList.find((book) => book.id === bookadded.id)
+    if (!updatedBook) setReadingList([...readingList,bookadded])
+    
+   
+  }
+
+  function removeBookFromList(deleteBook){
+    const bookToRemove=myBooks.find(myBook => myBook.id === deleteBook.id)
+    if(bookToRemove){
+      setMyBooks(myBooks.filter(myFilteredBook => myFilteredBook.id !== bookToRemove.id ))
+    }
+    const booksToRemove=readingList.find(myBook => myBook.id === deleteBook.id)
+     if(booksToRemove){
+
+      setReadingList(readingList.filter(myFilteredBook => myFilteredBook.id !== booksToRemove.id ))
+     }
   }
   useEffect(()=>{
-    fetch( 'https://www.googleapis.com/books/v1/volumes?q=flowers&orderBy=newest&key=AIzaSyD92Au7-Uf5gi2Gh7wAbAJhTfaMqpiM53Q'+'&maxResults=40')
+    fetch( 'https://www.googleapis.com/books/v1/volumes?q=flowers&orderBy=newest&key=AIzaSyD92Au7-Uf5gi2Gh7wAbAJhTfaMqpiM53Q&maxResults=40')
     .then(response => response.json())
     .then(response => setMyBooks(response.items))
+    .catch(error =>alert(error) )
 
   },[])
   const linkStyles = {
@@ -41,7 +57,7 @@ function Home(){
     </div>
     
     
-    <YourReadingList readingList={readingList}/>
+    <YourReadingList readingList={readingList} removeBookFromList={removeBookFromList}/>
     <h1 className="text-muted text-center">Yohooo....Get your books Here</h1>
     <figure className="text-center">
       <blockquote className="blockquote">
@@ -51,7 +67,7 @@ function Home(){
           <cite title="Source Title">J.K. Rowling</cite>
       </figcaption>
     </figure>
-    <AllBooks books={myBooks} addBookToList={addBookToList} />
+    <AllBooks books={myBooks} addBookToList={addBookToList} removeBookFromList={removeBookFromList}/>
     </>
    
 
