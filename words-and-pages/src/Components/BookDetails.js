@@ -1,14 +1,12 @@
-
-import BookItem from "./BookItem";
-import EachBookDetails from "./EachBookDetails";
-import {Route, Routes} from "react-router-dom";
+import BookItem from "./BookItem"
 import {useNavigate} from 'react-router-dom'
-import { useState,useRef } from "react";
+import { useState} from "react";
 
 function BookDetails({books}){
   const navigate=useNavigate()
   const [newBooks,setBook]=useState([])
-  console.log(newBooks)
+
+
   function getBookId(book){
   const returnedbooks= [...newBooks,book]
     setBook(returnedbooks)
@@ -18,10 +16,10 @@ function BookDetails({books}){
    
 
   }
-  <EachBookDetails book={newBooks}/>
+ 
   return (
     <>
-    <h1>Results</h1>
+    <h1 className="text-muted text-center">Results</h1>
     <div className="row d-flex justify-content-around">
     {books.map(book =>{
       return <BookItem key={book.id} book={book} getBookId={getBookId}/>
