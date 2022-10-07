@@ -1,84 +1,107 @@
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Form, Input } from 'antd';
-import React,{useState}from 'react';
+
+import React,{useContext,useEffect,useState}from 'react';
 import {useNavigate} from 'react-router-dom'
+import { DetailsContext } from "../Context/Context";
 
 
 function Login(){
-  const navigate=useNavigate()
-  const[logIn,setIsLoggedIn]=useState(false)
-  function handleClick(){
-    
-    console.log("submitted")
-    setIsLoggedIn(true)
-    navigate("words-and-pages/src/Components/Home.js/");
-    console.log(logIn)
-  }
-  const onFinish = (values) => {
-    
-    console.log('Received values of form: ', values);
+ 
+
+    const initialValues = { username: "", email: "", password: "" };
+  const [formValues, setFormValues] = useState(initialValues);
+  const [formErrors, setFormErrors] = useState({});
+  const [isSubmit, setIsSubmit] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormValues({ ...formValues, [name]: value });
   };
 
-  return (
-    <div className="App">
-     
-     <Form
-      name="normal_login"
-      className="login-form"
-      initialValues={{
-        remember: true,
-      }}
-      onFinish={onFinish}
-    >
-      <Form.Item
-        name="username"
-        rules={[
-          {
-            required: true,
-            message: 'Please input your Username!',
-          },
-        ]}
-      >
-        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
-      </Form.Item>
-      <Form.Item
-        className='login-input-password'
-        name="password"
-        rules={[
-          {
-            required: true,
-            message: 'Please input your Password!',
-          },
-        ]}
-      >
-        <Input
-          prefix={<LockOutlined className="site-form-item-icon" />}
-          type="password"
-          placeholder="Password"
-      
-        />
-      </Form.Item>
-      <Form.Item>
-        <Form.Item name="remember" valuePropName="checked" noStyle>
-          <Checkbox>Remember me</Checkbox>
-        </Form.Item>
-
-        {/* <a className="login-form-forgot" href="#">
-          Forgot password
-        </a> */}
-      </Form.Item>
-
-      <Form.Item>
-        <Button type="primary" htmlType="submit" className="login-form-button" onClick={handleClick}>
-          Log in
-        </Button>
-        {/* Or <a href="">register now!</a> */}
-      </Form.Item>
-    </Form>
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setFormErrors(validate(formValues));
+    setIsSubmit(true);
     
-     
+    
+  };
+
+  useEffect(() => {
+    if (Object.keys(formErrors).length === 0 && isSubmit) {
+      setIsLogged(!logIn)
+      navigate("words-and-pages/src/Components/Home.js/");
+
+    }
+  }, [formErrors]);
+  const validate = (values) => {
+    const errors = {};
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+    if (!values.username) {
+      errors.username = "Username is required!";
+    }
+    if (!values.email) {
+      errors.email = "Email is required!";
+    } else if (!regex.test(values.email)) {
+      errors.email = "This is not a valid email format!";
+    }
+    if (!values.password) {
+      errors.password = "Password is required";
+    } else if (values.password.length < 4) {
+      errors.password = "Password must be more than 4 characters";
+    } else if (values.password.length > 10) {
+      errors.password = "Password cannot exceed more than 10 characters";
+    }
+    return errors;
+  };
+   const navigate=useNavigate()
+  const {setIsLogged,logIn} = useContext(DetailsContext);
+  
+  return (
+    <div className="container">
+      
+      <form onSubmit={handleSubmit}>
+       
+        <div className="ui divider"></div>
+        <div className="login-box">
+        <h2>Login Form</h2>
+          <div className="user-box">
+           
+            <input
+              type="text"
+              name="username"
+              placeholder="Username"
+              className='input-field'
+              value={formValues.username}
+              onChange={handleChange}
+            />
+          </div>
+          <p>{formErrors.username}</p>
+          <div className="user-box">
+            <input
+              type="text"
+              name="email"
+              placeholder="Email"
+              className='input-field'
+              value={formValues.email}
+              onChange={handleChange}
+            />
+          </div>
+          <p>{formErrors.email}</p>
+          <div className="user-box">
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={formValues.password}
+              onChange={handleChange}
+            />
+          </div>
+          <p>{formErrors.password}</p>
+          <button className="btn btn-dark" >Submit</button>
+        </div>
+      </form>
     </div>
   );
+  
 }
 
 export default Login
