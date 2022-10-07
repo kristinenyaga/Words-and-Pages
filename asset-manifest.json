@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/Words-and-Pages/static/css/main.625867dd.css",
+    "main.js": "/Words-and-Pages/static/js/main.366a9393.js",
+    "static/js/787.ea260410.chunk.js": "/Words-and-Pages/static/js/787.ea260410.chunk.js",
+    "index.html": "/Words-and-Pages/index.html",
+    "main.625867dd.css.map": "/Words-and-Pages/static/css/main.625867dd.css.map",
+    "main.366a9393.js.map": "/Words-and-Pages/static/js/main.366a9393.js.map",
+    "787.ea260410.chunk.js.map": "/Words-and-Pages/static/js/787.ea260410.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.625867dd.css",
+    "static/js/main.366a9393.js"
+  ]
+}
