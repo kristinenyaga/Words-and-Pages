@@ -1,8 +1,11 @@
 import { NavLink } from "react-router-dom";
-
+import { useContext } from "react";
+import { DetailsContext } from "../Context/Context";
 
 
 function NavBar() {
+  const {logIn} = useContext(DetailsContext);
+
   const linkStyles = {
     display: "inline-block",
     width: "120px",
@@ -20,7 +23,8 @@ function NavBar() {
         style={linkStyles}
         
       >
-        Login
+        {logIn? "Login":"LogOut"}
+       
       </NavLink>
       {/* <NavLink
         to="words-and-pages/src/Components/Home.js/*"
